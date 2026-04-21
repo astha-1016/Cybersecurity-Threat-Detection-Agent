@@ -80,12 +80,13 @@ cd cyber-threat-agent
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Set up environment
-cp .env.example .env
 # Edit .env and add your GROQ_API_KEY
 
-# 4. Add knowledge base documents
+# 3. Add knowledge base documents
 # Place your .txt files in data/docs/
+
+# 4 . Run the test_cases
+pytest tests/test_tools.py
 
 # 5. Run
 streamlit run app.py
@@ -183,8 +184,3 @@ cyber-threat-agent/
 - Single-user; production would need authentication and multi-tenancy
 - Would add email/Slack alerting for confirmed threats
 
----
-
-## 👤 Author
-
-Built as a capstone project for the Agentic AI Hands-On Course.
