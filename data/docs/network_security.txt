@@ -1,0 +1,71 @@
+Network Security - Cybersecurity Knowledge Base
+
+Network security encompasses the practices, tools, policies, and technologies used to protect computer networks and data from unauthorized access, misuse, modification, or destruction. It covers the entire network infrastructure — routers, switches, firewalls, servers, endpoints, wireless access points, and cloud resources. A network breach can compromise every connected system, making network security foundational to all cybersecurity efforts.
+
+Core Network Security Components:
+1. Firewalls: Filter traffic based on rules. See dedicated firewall document.
+2. IDS/IPS: Detect and prevent intrusions. See dedicated IDS document.
+3. VPN (Virtual Private Network): Encrypts all traffic between remote users and the corporate network. Essential for remote work security. Uses IPSec or SSL/TLS protocols.
+4. Network Access Control (NAC): Ensures only authorized, compliant, and healthy devices can join the network. Checks patch level, antivirus status, and encryption before allowing access.
+5. Data Loss Prevention (DLP): Monitors and blocks unauthorized transfer of sensitive data outside the network.
+6. Network Segmentation: Divides the network into isolated zones to contain breaches and limit attacker lateral movement.
+7. Encryption in Transit: Protects data moving across the network using TLS 1.3, IPSec, or SSH. Prevents eavesdropping.
+8. SIEM Systems: Collect and correlate logs from all network devices for real-time threat detection.
+9. Zero Trust Network Access (ZTNA): "Never trust, always verify" — every access request is authenticated and authorized regardless of network location.
+
+Common Network Attack Types:
+1. Man-in-the-Middle (MITM): Attacker secretly intercepts and potentially alters communication between two parties. Enabled by ARP poisoning, rogue access points, or SSL stripping.
+2. Packet Sniffing: Attacker captures and reads unencrypted data packets on the network using tools like Wireshark or tcpdump. Dangerous on unencrypted Wi-Fi.
+3. DNS Spoofing / DNS Cache Poisoning: Corrupts DNS resolver cache to redirect users from legitimate sites to malicious ones. Bypasses HTTPS if the fake site has a certificate.
+4. ARP Poisoning: Attacker associates their MAC address with a legitimate IP address on the LAN, intercepting all traffic intended for that IP.
+5. Rogue Access Points: Unauthorized Wi-Fi hotspots ("evil twins") set up to intercept wireless traffic from unsuspecting users.
+6. Network Scanning / Reconnaissance: Attackers use Nmap, Masscan to map open ports, services, and OS versions before launching targeted attacks.
+7. BGP Hijacking: Attackers manipulate Border Gateway Protocol routing to redirect internet traffic through attacker-controlled infrastructure.
+8. VLAN Hopping: Attacker sends traffic tagged for a different VLAN to access network segments they shouldn't reach.
+9. Network Worms: Self-propagating malware that spreads laterally through network shares, SMB vulnerabilities, or default credentials.
+10. Lateral Movement: After initial compromise, attacker moves through the network to reach high-value targets like domain controllers or databases.
+
+Signs of Network Compromise:
+- Unusual outbound traffic to foreign IP addresses, especially during off-hours.
+- Unexpected internal traffic between systems that don't normally communicate.
+- Slowdowns on specific network segments without hardware issues.
+- Alerts from IDS/IPS about known exploit patterns or C2 communication.
+- DNS queries to newly registered or suspicious domains.
+- Large file transfers to external destinations.
+- New devices appearing on the network without corresponding change requests.
+- Failed authentication attempts on network devices (switches, routers).
+- ARP table anomalies — same MAC address associated with multiple IPs.
+
+Network Monitoring Best Practices:
+- Deploy a SIEM (Splunk, IBM QRadar, Microsoft Sentinel) to centralize and analyze all logs.
+- Implement full packet capture at key network points for forensic capability.
+- Monitor for east-west (internal) traffic anomalies — attackers move laterally inside networks.
+- Establish network baselines and alert on significant deviations.
+- Review firewall and IDS alerts daily. Investigate all high-priority alerts within 1 hour.
+- Use NetFlow or sFlow to monitor traffic patterns without full packet capture overhead.
+- Deploy honeypots — fake systems that attract attackers and alert when touched.
+
+Network Segmentation Strategy:
+- DMZ (Demilitarized Zone): Public-facing servers (web, email, DNS) placed here, isolated from internal systems. Compromise of DMZ does not directly expose internal network.
+- Internal LAN: User workstations and file servers. Restricted access from DMZ.
+- Management Network: Separate network for managing firewalls, switches, and servers. Most restricted segment.
+- OT/ICS Network: Operational technology systems (industrial control systems) air-gapped or strictly segmented.
+- Guest Network: Completely isolated from internal resources with internet access only.
+- Micro-segmentation: Granular isolation of individual workloads in cloud and data center environments.
+
+Wireless Network Security:
+- Use WPA3 encryption — WPA2 is susceptible to PMKID attacks and dictionary attacks.
+- Implement 802.1X enterprise authentication for corporate Wi-Fi — uses individual credentials rather than shared PSK.
+- Deploy wireless IDS to detect rogue access points and deauthentication attacks.
+- Disable WPS (Wi-Fi Protected Setup) — has well-documented PIN brute force vulnerabilities.
+- Use separate guest network with client isolation enabled.
+- Monitor for evil twin attacks — rogue APs broadcasting your SSID.
+
+Incident Response for Network Breaches:
+1. Identify the scope: Use network flow data, logs, and SIEM correlation to map affected systems.
+2. Contain: Isolate compromised segments using VLAN changes or firewall ACL modifications.
+3. Block: Null route attacker IPs. Block malicious domains at DNS and proxy level.
+4. Eradicate: Remove malware, close vulnerabilities, reset compromised credentials.
+5. Restore: Bring systems back online from clean backups after verification.
+6. Recover: Monitor for re-infection. Update detection rules based on attacker TTPs.
+7. Notify: Alert affected users and regulatory bodies as required by law (GDPR, HIPAA, PCI-DSS).

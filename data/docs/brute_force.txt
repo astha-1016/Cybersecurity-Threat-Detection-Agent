@@ -1,0 +1,63 @@
+Brute Force Attack - Cybersecurity Knowledge Base
+
+A brute force attack is a trial-and-error method used by attackers to gain unauthorized access to accounts, systems, or encrypted data. The attacker systematically tries every possible combination of passwords, usernames, or encryption keys until the correct one is found. Modern brute force attacks use automated tools that can attempt thousands of combinations per second.
+
+Types of Brute Force Attacks:
+1. Simple Brute Force: Tries all possible character combinations without any logic. Time-consuming but exhaustive.
+2. Dictionary Attack: Uses a pre-built list of common passwords and words. Much faster than simple brute force.
+3. Credential Stuffing: Uses leaked username-password pairs from previous data breaches. Highly effective because people reuse passwords.
+4. Reverse Brute Force: Starts with a known common password (like "password123") and tries it against many usernames.
+5. Hybrid Attack: Combines dictionary words with numbers or symbols (e.g., "password123!").
+6. Rainbow Table Attack: Uses precomputed hash values to crack password hashes quickly.
+7. Password Spraying: Tries a few common passwords against many accounts to avoid lockout triggers.
+
+Common Signs of a Brute Force Attack:
+- A large number of failed login attempts in a short time period (50+ attempts per minute).
+- Login attempts coming from a single IP address or multiple IPs in sequence.
+- Logins attempted at unusual hours such as midnight or early morning.
+- Account lockouts triggering repeatedly for the same user.
+- High CPU usage on authentication servers during the attack window.
+- Alerts from intrusion detection systems about repeated access failures.
+- Multiple usernames being tried from the same IP (password spraying indicator).
+- Geographic anomalies — logins attempted from countries the user has never accessed from.
+
+Tools Commonly Used by Attackers:
+- Hydra: Popular network login cracker supporting many protocols.
+- Medusa: Fast, parallel password cracker.
+- Burp Suite: Used for brute forcing web application login forms.
+- John the Ripper: Offline password hash cracker.
+- Hashcat: GPU-accelerated password recovery tool.
+
+How to Prevent Brute Force Attacks:
+- Enforce strong password policies: minimum 12 characters with uppercase, lowercase, numbers, and symbols.
+- Implement account lockout after 5 consecutive failed login attempts.
+- Use multi-factor authentication (MFA) so that even a correct password alone is not enough.
+- Apply rate limiting on login endpoints to slow down repeated attempts.
+- Use CAPTCHA challenges after a few failed attempts to block automated scripts.
+- Monitor login logs regularly and set alerts for unusual patterns.
+- Use IP-based blocking or geo-restriction for high-risk regions.
+- Implement progressive delays — each failed attempt adds a longer wait time.
+- Use passwordless authentication (biometrics, hardware keys) where possible.
+- Deploy a Web Application Firewall (WAF) to detect and block attack patterns.
+
+Incident Response Steps:
+- Immediately lock the affected user account.
+- Notify the account owner about the suspicious activity via alternative communication.
+- Review server logs to identify the source IP addresses and attack timeline.
+- Block the attacker IPs at the firewall level.
+- Force a password reset for the compromised account.
+- Enable MFA on all affected accounts.
+- Check if any successful logins occurred during the attack window.
+- Document the incident and update security policies accordingly.
+
+Real-World Examples:
+- In 2017, the WannaCry ransomware used brute force to spread across networks via SMB protocol.
+- In 2020, several government portals were targeted with credential stuffing attacks using leaked databases.
+- In 2022, a major cloud provider reported 2.8 million brute force attempts per day targeting customer accounts.
+- The 2021 Colonial Pipeline attack began with a compromised VPN password, likely obtained through credential stuffing.
+
+Impact Assessment:
+- Successful brute force can lead to full account takeover.
+- Attackers can access sensitive data, financial information, and internal systems.
+- Compromised admin accounts can lead to full system takeover.
+- Business impact includes data breach costs, regulatory fines, and reputational damage.

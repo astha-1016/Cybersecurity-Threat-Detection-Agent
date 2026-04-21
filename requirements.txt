@@ -1,0 +1,13 @@
+langchain
+langchain-community
+langchain-groq
+langchain-core
+langgraph
+chromadb
+streamlit
+sentence-transformers==2.7.0
+python-dotenv
+requests
+plotly
+pandas
+pysqlite3-binary

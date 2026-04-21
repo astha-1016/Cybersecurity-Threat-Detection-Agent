@@ -1,0 +1,57 @@
+DDoS Attack (Distributed Denial of Service) - Cybersecurity Knowledge Base
+
+A Distributed Denial of Service (DDoS) attack is a cyberattack in which multiple compromised systems, often part of a botnet, flood a target server, website, or network with massive amounts of traffic. The goal is to exhaust the target's resources — CPU, memory, bandwidth — and make it unavailable to legitimate users. DDoS attacks have grown significantly in scale, with attacks exceeding 1 Tbps becoming common.
+
+Types of DDoS Attacks:
+1. Volume-Based Attacks (Layer 3/4): Overwhelm bandwidth with UDP floods, ICMP floods, or spoofed packet floods. Measured in Gbps.
+2. Protocol Attacks: Exploit weaknesses in network protocols. SYN flood — sends thousands of connection requests without completing them, exhausting the server's connection table. Ping of Death — sends oversized ICMP packets.
+3. Application Layer Attacks (Layer 7): Target web servers with HTTP GET/POST floods that mimic real traffic. Hardest to detect and filter. HTTP flood, Slowloris, RUDY attacks.
+4. Amplification Attacks: Use open DNS resolvers or NTP servers to amplify small requests into massive responses. DNS amplification can achieve 50x amplification.
+5. Slowloris: Sends partial HTTP requests to keep hundreds of connections open simultaneously, exhausting server threads.
+6. Botnet-based Attacks: Coordinated attacks from thousands of compromised IoT devices, computers, and servers (zombie machines).
+7. Multi-Vector Attacks: Combine multiple attack types simultaneously to overwhelm both network and application defenses.
+
+Signs of a DDoS Attack in Progress:
+- Sudden and unexplained spikes in incoming traffic — 10x or more normal levels.
+- Website or service becomes extremely slow or completely unavailable.
+- Traffic coming from a large number of different IP addresses simultaneously.
+- Requests targeting a single endpoint or URL repeatedly with identical patterns.
+- Unusual geographic distribution — traffic from unexpected regions.
+- Network bandwidth consumption reaching maximum capacity.
+- Server logs showing millions of requests per second.
+- Normal users reporting timeouts and connection errors.
+- CPU and memory usage spike to 100% without clear cause.
+
+Prevention and Mitigation Strategies:
+- Deploy a Web Application Firewall (WAF) to filter malicious requests.
+- Use Content Delivery Networks (CDNs) like Cloudflare to absorb and distribute traffic.
+- Enable rate limiting to restrict the number of requests per IP per second.
+- Configure upstream filtering with your ISP to block traffic before it reaches your server.
+- Use Anycast network diffusion to spread attack traffic across multiple servers globally.
+- Set up automatic traffic scrubbing services during detected attack windows.
+- Maintain excess bandwidth capacity — "over-provisioning" helps absorb smaller attacks.
+- Implement IP reputation blocking to automatically drop traffic from known malicious IPs.
+- Use SYN cookies to protect against SYN flood attacks.
+- Deploy intrusion prevention systems (IPS) that can detect and block attack patterns.
+
+Incident Response Steps:
+- Identify whether the spike is legitimate traffic or an attack using log analysis and traffic pattern review.
+- Activate DDoS protection service or contact your CDN provider immediately.
+- Block attacking IP ranges at the firewall or router level using ACLs.
+- Redirect clean traffic using traffic scrubbing services (Akamai, Cloudflare, AWS Shield).
+- Notify stakeholders and customers about the service disruption with estimated recovery time.
+- Collect logs and traffic captures for post-incident forensic analysis.
+- Report to relevant authorities if the attack is severe or targeted.
+- Perform a post-incident review to improve defenses and update runbooks.
+
+Impact of DDoS Attacks:
+- Direct financial loss from service downtime (e-commerce sites can lose thousands per minute).
+- Reputational damage and loss of customer trust.
+- May be used as a smokescreen while attackers conduct other malicious activity.
+- SLA penalties for cloud and hosting providers.
+
+Real-World Examples:
+- 2016: Mirai botnet DDoS attack took down Twitter, Netflix, Reddit by targeting Dyn DNS servers using 100,000+ IoT devices.
+- 2020: AWS reported mitigating a 2.3 Tbps DDoS attack — the largest ever recorded at that time.
+- 2021: Cloudflare mitigated a 17.2 million request-per-second HTTP DDoS attack.
+- 2022: Google Cloud mitigated a 46 million rps Layer 7 DDoS attack, the largest ever at the time.

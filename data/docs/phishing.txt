@@ -1,0 +1,63 @@
+Phishing Attack - Cybersecurity Knowledge Base
+
+Phishing is a type of social engineering attack where cybercriminals impersonate a trusted entity to trick users into revealing sensitive information such as login credentials, credit card numbers, or personal data. It is the most prevalent attack vector today — over 90% of data breaches begin with a phishing email. Phishing exploits human psychology: urgency, fear, authority, and trust.
+
+Types of Phishing Attacks:
+1. Email Phishing: Mass emails sent from spoofed or look-alike domains pretending to be banks, service providers, or company IT departments. Uses urgency ("Your account will be suspended!").
+2. Spear Phishing: Highly targeted attack aimed at a specific individual using personal details gathered from LinkedIn, social media. Much higher success rate than mass phishing.
+3. Whaling: Targets C-level executives (CEO, CFO) to gain access to sensitive corporate data or authorize fraudulent financial transfers (Business Email Compromise — BEC).
+4. Smishing: Phishing via SMS text messages with malicious links ("Your package is held — click to confirm").
+5. Vishing: Voice phishing — attackers call victims pretending to be bank fraud departments or IT support.
+6. Clone Phishing: A legitimate email is copied and modified to include a malicious link or attachment.
+7. Pharming: Redirects users from a legitimate website to a fake one by poisoning DNS records or modifying the hosts file.
+8. Search Engine Phishing: Fake websites optimized to appear in search results for banking or login pages.
+9. OAuth Phishing: Tricks users into granting third-party app permissions that give attackers account access.
+
+Common Signs of a Phishing Email:
+- Urgent language pressuring you to act immediately ("Your account will be suspended in 24 hours!").
+- Sender email address is slightly different from the real domain (e.g., support@amaz0n.com, paypal-security@gmail.com).
+- Generic greetings like "Dear Customer" or "Dear User" instead of your actual name.
+- Links that don't match the displayed text — hover to see the real destination URL.
+- Unexpected attachments (.exe, .zip, .docm files with macros, .pdf with embedded links).
+- Poor grammar, spelling mistakes, or unusual formatting.
+- Requests for passwords, OTPs, credit card numbers, or Social Security numbers via email.
+- Mismatched branding — logos that look slightly off, wrong colors, different fonts.
+- Requests to bypass normal security procedures.
+
+How Phishing Attacks Work:
+1. Attacker researches the target and crafts a convincing fake email mimicking a trusted brand.
+2. Email is sent with urgency — fake invoice, password reset, account suspended notice.
+3. Victim clicks link and lands on a fake login page that looks identical to the real one (pixel-perfect clones).
+4. Victim enters credentials — attacker receives them in real time via a logging server.
+5. Attacker uses stolen credentials to access the real account, often within seconds.
+6. Attacker may install malware, steal data, pivot to other systems, or sell credentials on the dark web.
+
+Advanced Phishing Techniques:
+- Adversary-in-the-Middle (AiTM): Intercepts session cookies to bypass MFA. Used in large-scale campaigns targeting Microsoft 365 users.
+- HTML smuggling: Malicious code is hidden in HTML attachments and assembled in the browser to evade email scanners.
+- QR code phishing (Quishing): Malicious URLs hidden in QR codes that bypass email link scanners.
+- Callback phishing: Email asks victim to call a phone number; human attacker then tricks them into installing remote access software.
+
+Prevention Strategies:
+- Train employees regularly with phishing simulation exercises (use tools like KnowBe4, Cofense).
+- Enable email filtering and spam detection at the gateway (Microsoft Defender, Proofpoint, Mimecast).
+- Implement DMARC, DKIM, and SPF DNS records to prevent email domain spoofing.
+- Enable multi-factor authentication (MFA) so stolen passwords alone are insufficient.
+- Use phishing-resistant MFA: FIDO2 hardware keys (YubiKey) are immune to AiTM attacks.
+- Always verify unexpected requests for sensitive information via phone or a separate email.
+- Never click links in emails — navigate directly to the website by typing the URL.
+- Report suspicious emails to the IT security team immediately.
+
+Incident Response:
+- Do not click any links or download attachments from the suspected phishing email.
+- Report the email to the security team immediately for header analysis and domain investigation.
+- If credentials were entered on a phishing page, change the password immediately and enable MFA.
+- Check for unauthorized logins, email forwarding rules, and OAuth app grants.
+- Notify affected parties if sensitive data may have been exposed.
+- Preserve email headers for forensic investigation.
+
+Real-World Examples:
+- 2016 John Podesta hack: A spear phishing email changed the course of a US presidential election.
+- 2020 Twitter Bitcoin scam: Attackers used vishing to trick Twitter employees into giving admin access, compromising celebrity accounts.
+- 2022 Twilio breach: SMS phishing (smishing) of employees led to a major data breach affecting hundreds of downstream customers.
+- 2023: AiTM phishing campaigns bypassed MFA for thousands of Microsoft 365 accounts globally.

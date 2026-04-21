@@ -1,0 +1,63 @@
+Intrusion Detection and Prevention Systems - Cybersecurity Knowledge Base
+
+An Intrusion Detection System (IDS) monitors network traffic and system activity to detect suspicious behavior, policy violations, or known attack patterns. When a threat is detected, it sends an alert. An Intrusion Prevention System (IPS) goes further — it actively blocks detected threats in real time. Together, IDS/IPS form a critical layer of defense in any security architecture.
+
+Types of IDS/IPS:
+1. Network-Based IDS/IPS (NIDS/NIPS): Monitors all traffic at strategic network points. Placed at network perimeters, DMZ entry points, or between network segments. Tools: Snort, Suricata, Zeek (Bro), Cisco Firepower.
+2. Host-Based IDS/IPS (HIDS/HIPS): Installed on individual endpoints. Monitors system logs, file integrity, running processes, and system calls. Tools: OSSEC, Wazuh, Tripwire, CrowdStrike Falcon.
+3. Signature-Based Detection: Compares traffic and behavior against a database of known attack signatures. Fast and accurate for known threats. Cannot detect zero-day attacks (unknown threats).
+4. Anomaly-Based Detection: Establishes a baseline of normal behavior and flags deviations. Can detect unknown attacks and zero-days. Higher false positive rate requires careful tuning.
+5. Hybrid IDS: Combines signature and anomaly detection for better coverage with fewer false positives.
+6. Protocol-Based IDS (PIDS): Monitors specific protocols (HTTP, FTP, SMTP) for violations and anomalies.
+7. Application Protocol-Based IDS (APIDS): Monitors application-specific protocols between servers and clients.
+
+What IDS/IPS Monitors:
+- Login attempts and authentication failures — brute force indicators.
+- Port scanning and network reconnaissance — pre-attack probing activity.
+- Unusual outbound traffic volume or destinations — possible data exfiltration or C2 communication.
+- Changes to critical system files or configurations — rootkit or malware persistence.
+- Known malware signatures in network packets.
+- Protocol violations or malformed packets — exploitation attempts.
+- DNS queries to known malicious domains — C2 communication indicator.
+- Lateral movement patterns — attacker moving through the internal network.
+- Large data transfers at unusual hours — data exfiltration indicator.
+
+Common IDS/IPS Alert Types and Their Meaning:
+- Port Scan Detected: An attacker is mapping your network — reconnaissance phase before targeted attack.
+- Multiple Failed Logins: Possible brute force attack. Check source IP and targeted accounts.
+- Unusual Data Transfer: Possible data exfiltration. Check destination IP and volume.
+- Known Exploit Pattern Matched: A specific CVE exploit tool or payload was detected.
+- C2 Beacon Detected: Infected host communicating with attacker command-and-control server.
+- DNS Tunneling: Data being exfiltrated encoded inside DNS queries — bypasses traditional data loss prevention.
+- Unusual Port Usage: Services running on non-standard ports to evade detection.
+- SQL Injection Pattern: Web application being probed or attacked via SQLi.
+
+IDS vs IPS vs Firewall:
+- Firewall: Filters traffic based on rules (IP, port, protocol). Blocks based on policy. Cannot inspect payload content.
+- IDS: Passively monitors and alerts. Does NOT block traffic. Good for visibility and forensics.
+- IPS: Actively monitors AND blocks detected threats in real time. Inline deployment required.
+- NGFW (Next-Gen Firewall): Combines firewall + IPS + application awareness + deep packet inspection.
+- SIEM: Aggregates logs from IDS/IPS and other sources for correlation and analysis.
+
+IDS/IPS Limitations and Evasion Techniques:
+- Encrypted traffic: IDS cannot inspect TLS-encrypted payloads without SSL inspection.
+- Fragmentation attacks: Attacker splits malicious payload across multiple packets.
+- Polymorphic malware: Changes signatures to evade signature-based detection.
+- Slow and low attacks: Attacker moves slowly to avoid triggering anomaly thresholds.
+- False positives: Legitimate traffic may trigger alerts, causing alert fatigue.
+- Zero-day exploits: Unknown attacks have no signatures yet.
+
+Best Practices for IDS/IPS Deployment:
+- Place NIDS sensors at network perimeter, DMZ, and between internal segments.
+- Keep signature databases updated daily to detect newly discovered threats.
+- Tune anomaly detection thresholds carefully to reduce alert fatigue while maintaining sensitivity.
+- Integrate IDS/IPS alerts with SIEM for correlation, automated response, and long-term analysis.
+- Enable SSL inspection to detect threats in encrypted traffic.
+- Implement automated response playbooks for high-confidence alerts.
+- Review all high-severity alerts within 1 hour as per security best practices.
+- Conduct regular penetration testing to validate IDS/IPS effectiveness.
+
+Deployment Architecture:
+- Internet → Firewall → IPS (inline) → DMZ → IDS (passive tap) → Internal Network
+- Deploy HIDS on all critical servers: domain controllers, database servers, web servers.
+- Use network taps or SPAN ports to ensure IDS sees all traffic without impacting performance.

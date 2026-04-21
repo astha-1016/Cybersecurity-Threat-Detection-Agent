@@ -1,0 +1,63 @@
+Firewall Security - Cybersecurity Knowledge Base
+
+A firewall is a network security device or software that monitors and controls incoming and outgoing network traffic based on predefined security rules. Firewalls act as gatekeepers between trusted internal networks and untrusted external networks. They are the first line of defense in any network security architecture. Modern firewalls have evolved far beyond simple packet filtering to include deep packet inspection, application awareness, and integrated threat intelligence.
+
+Types of Firewalls:
+1. Packet Filtering Firewall: Inspects individual packets based on IP addresses, ports, and protocols. Stateless — does not track connection state. Fast but limited visibility. Used at network edges.
+2. Stateful Inspection Firewall: Tracks the state of active connections. Only allows packets that are part of an established, legitimate connection. Much more secure than packet filtering.
+3. Application Layer Firewall (Proxy Firewall): Operates at Layer 7. Inspects the actual content of traffic. Can understand and filter based on HTTP, FTP, DNS content. Slower but highly effective.
+4. Next-Generation Firewall (NGFW): Combines traditional firewall + deep packet inspection + intrusion prevention + application identification + user identity awareness + TLS inspection + threat intelligence feeds. Industry standard for enterprise environments.
+5. Web Application Firewall (WAF): Specifically protects web applications from attacks like SQL injection, XSS, CSRF, and OWASP Top 10 vulnerabilities. Deployed in front of web servers. Can be cloud-based (Cloudflare, AWS WAF) or on-premises.
+6. Cloud Firewall (FWaaS — Firewall as a Service): Hosted in the cloud. Protects cloud workloads and remote users. Scales automatically. Examples: Zscaler, Palo Alto Prisma, Cloudflare Gateway.
+7. Host-Based Firewall: Software firewall running on individual computers. Provides protection even when the host is moved outside the corporate network. Windows Defender Firewall, iptables (Linux).
+
+Firewall Rules and Operation:
+- Rules are processed top-to-bottom — the first matching rule is applied (first-match wins).
+- Default Deny (Whitelist) approach: Block everything that doesn't explicitly match an allow rule. Most secure approach.
+- Allow only required ports: HTTPS (443), HTTP (80), DNS (53), SSH (22) from trusted IPs only.
+- Inbound rules: Control traffic entering the network from outside.
+- Outbound rules: Control traffic leaving the network. Often overlooked but critical for preventing data exfiltration and C2 communication.
+- NAT (Network Address Translation): Hides internal IP addresses from external networks.
+
+Critical Firewall Rules to Implement:
+- Block all inbound traffic by default; allow only required services.
+- Restrict SSH/RDP access to specific management IPs only — never expose to the internet.
+- Block known malicious IP ranges (use threat intelligence feeds for automated updates).
+- Allow outbound traffic only to required destinations and ports.
+- Block outbound connections to Tor exit nodes and known C2 infrastructure.
+- Log all DENY events for security monitoring and forensics.
+
+Firewall Misconfigurations and Warning Signs:
+- Any server directly accessible from the internet on port 3389 (RDP) or 22 (SSH) without restriction.
+- Outbound rules allowing ALL traffic to ANY destination (default in many configurations).
+- Overly permissive rules created for testing that were never removed.
+- Firewall logs showing repeated blocked attempts from the same IP — possible active attack.
+- Internal services accidentally exposed to the internet due to misconfiguration.
+- Duplicate or conflicting rules creating unintended allow paths.
+- Firewall running outdated firmware with known vulnerabilities.
+
+Firewall Evasion Techniques Used by Attackers:
+- Protocol tunneling: Encapsulate malicious traffic inside allowed protocols (HTTP, DNS, ICMP).
+- Port hopping: Change destination ports frequently to avoid port-based blocking.
+- Fragmentation: Split malicious packets to bypass stateless packet filtering.
+- SSL/TLS encryption: Hide malicious traffic inside encrypted sessions (countered by SSL inspection).
+- Living-off-the-land: Use legitimate tools (curl, PowerShell) to communicate through allowed channels.
+- Domain fronting: Use CDN infrastructure to disguise C2 traffic as traffic to legitimate cloud providers.
+
+Best Practices:
+- Enable comprehensive logging and forward to a SIEM for real-time monitoring and alerting.
+- Test firewall rules regularly using penetration testing tools to verify they work as intended.
+- Use firewalls at multiple layers: perimeter, internal network segmentation, host-based.
+- Never disable firewall protection, even temporarily, on production systems.
+- Document every rule change with: reason, requester, date, approver, and planned expiry.
+- Implement firewall change management process — all changes require review and approval.
+- Conduct quarterly rule reviews to remove outdated or unnecessary rules.
+- Use network segmentation (DMZ, VLAN separation) enforced by firewall rules.
+- Implement zero-trust network access: treat all traffic as potentially hostile regardless of source.
+
+Firewall Log Analysis:
+- High volume of blocked traffic from a single IP: possible scanning or attack.
+- Blocked outbound traffic to unusual destinations: possible malware C2 communication.
+- Allowed traffic to unexpected ports: possible policy violation or misconfiguration.
+- DNS requests to newly registered domains: possible C2 or phishing infrastructure.
+- Large data transfers to external IPs after hours: possible data exfiltration.

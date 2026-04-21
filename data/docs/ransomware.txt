@@ -1,0 +1,62 @@
+Ransomware - Cybersecurity Knowledge Base
+
+Ransomware is a type of malware that encrypts a victim's files or entire system, making them completely inaccessible. The attacker then demands a ransom payment — typically in cryptocurrency like Bitcoin or Monero — in exchange for the decryption key. Ransomware has become a billion-dollar criminal industry. In 2023, ransomware payments exceeded $1 billion globally for the first time.
+
+How Ransomware Works (Step by Step):
+1. Delivery: Enters via phishing email, malicious download, RDP brute force, VPN vulnerability, or software supply chain compromise.
+2. Execution and Privilege Escalation: Malware runs, often exploiting vulnerabilities to gain admin/SYSTEM privileges.
+3. Reconnaissance: Quietly maps the network, identifies valuable data, locates and disables backups.
+4. Lateral Movement: Spreads to other machines on the network using stolen credentials or exploits.
+5. Data Exfiltration (Double Extortion): Steals sensitive data before encrypting — used as additional leverage.
+6. Encryption: Encrypts files using strong asymmetric encryption (RSA-2048 + AES-256). File extensions change (.locked, .encrypted, .WNCRY).
+7. Ransom Demand: Ransom note displayed on desktop or in every encrypted folder. Contains payment instructions and deadline.
+8. Payment and (Sometimes) Decryption: If victim pays, attacker may provide decryption key — but only about 65% of victims who pay recover all data.
+
+Types of Ransomware:
+1. Crypto Ransomware: Encrypts files only. Most common type. Examples: WannaCry, REvil, LockBit, BlackCat (ALPHV).
+2. Locker Ransomware: Locks the entire operating system — victim cannot log in at all.
+3. Double Extortion: Encrypts AND steals data. Threatens to publish sensitive data publicly if ransom not paid. Used by most modern ransomware groups.
+4. Triple Extortion: Double extortion PLUS threatening to DDoS the victim's website or contacting customers directly.
+5. Ransomware-as-a-Service (RaaS): Criminal groups develop ransomware tools and rent them to "affiliates" who conduct attacks. Revenue split 70-30 or 80-20. Examples: LockBit, BlackCat, Cl0p.
+6. Wiper Ransomware: Designed to destroy data regardless of payment — used in nation-state attacks for sabotage (NotPetya).
+
+Signs of Active Ransomware Infection:
+- Files suddenly have unfamiliar extensions (.locked, .encrypted, .WNCRY) and cannot be opened.
+- Ransom note (text file, HTML page, or fullscreen popup) appears on the desktop.
+- System performance slows dramatically as encryption runs across all drives.
+- Security software gets disabled or uninstalled automatically.
+- Unusual high disk I/O activity detected on storage monitoring tools.
+- Network shares, mapped drives, and cloud sync folders also become encrypted.
+- Backup systems and shadow copies are deleted (attackers do this deliberately first).
+- Antivirus alerts about tools like vssadmin.exe (used to delete shadow copies).
+
+Prevention Strategies:
+- Follow the 3-2-1 backup rule: 3 copies of data, 2 different storage types, 1 offsite or offline. Test restores regularly.
+- Keep all operating systems, software, and firmware patched and updated immediately.
+- Disable RDP if not needed. If required, use VPN with MFA and restrict to known IPs.
+- Restrict administrative privileges using the principle of least privilege.
+- Deploy EDR solution with behavioral detection capable of stopping encryption in progress.
+- Segment your network — ransomware cannot spread to segments it cannot reach.
+- Block known ransomware domains and IPs at the firewall and DNS level.
+- Disable PowerShell, WMI, and other tools for users who don't need them.
+- Implement application whitelisting to prevent unauthorized executables from running.
+- Train employees on phishing and social engineering regularly.
+- Use email filtering to block malicious attachments and links.
+
+Incident Response for Ransomware:
+1. ISOLATE immediately: Disconnect infected machines from network by disabling Wi-Fi, Ethernet, and VPN.
+2. DO NOT shut down: Encryption keys may be recoverable from memory on some older ransomware variants.
+3. DO NOT pay the ransom without consulting law enforcement and cybersecurity experts.
+4. Identify the strain: Use ID Ransomware (id-ransomware.malwarehunterteam.com) to identify the ransomware family.
+5. Check for free decryptors: NoMoreRansom project (nomoreransom.org) has free decryption tools for some strains.
+6. Contact authorities: Report to FBI IC3, CISA, or local cybercrime unit. Paying may violate OFAC sanctions.
+7. Restore from clean backups: Verify backups are clean before restoring.
+8. Forensic investigation: Identify entry point, lateral movement, and full scope of compromise.
+9. Document thoroughly for insurance claims, regulatory notifications, and legal requirements.
+
+Famous Ransomware Attacks:
+- WannaCry (2017): Exploited EternalBlue SMB vulnerability. Infected 230,000 systems in 150 countries, $4 billion in damages. Affected UK NHS hospitals, causing patient care disruption.
+- NotPetya (2017): Disguised as ransomware but designed to permanently destroy data. Caused $10 billion in damages globally. Attributed to Russian GRU.
+- Colonial Pipeline (2021): DarkSide ransomware shut down the largest US fuel pipeline for 6 days. $4.4 million ransom paid. Caused fuel shortages across the US East Coast.
+- Kaseya VSA (2021): REvil ransomware affected 1,500 businesses through MSP software supply chain. $70 million ransom demanded.
+- Costa Rica Government (2022): Conti ransomware paralyzed multiple government ministries. Costa Rica declared national emergency.
